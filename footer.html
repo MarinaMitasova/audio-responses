@@ -1,0 +1,12 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="https://marsurvey.ru/marina/ssi8/voice_record/voice_record.css#1">
+<script>
+    document.write(decodeURI('%3Cscript src="https://marsurvey.ru/public_scripts/audio-recorder-polyfill.js">%3C/script>'));
+</script>
+<script src="https://marsurvey.ru/marina/ssi8/voice_record/voice_record.js"></script>
+<script>
+if ('onpageshow' in window){window.addEventListener('pageshow', on_load, false);} else {window.addEventListener('load', on_load, false);}
+function on_load(){
+  voiceRecord("[%pass%]", "[%QUESTIONNAME()%]")
+};
+</script>

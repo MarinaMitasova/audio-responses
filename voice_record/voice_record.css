@@ -1,0 +1,34 @@
+.btn{
+	cursor: pointer;
+	display: inline-block;
+	padding: 1em 0.4em;
+	font-size: 0.8em;
+	margin: 0.5em 0.2em;
+	border-radius: 3px;
+	border: 1px solid #ff646d;
+	width: 95%;
+	color: #fff;
+	background: #ff646d;
+	text-align: center;
+}
+.btn:not(.disabled):hover{
+    transform: scale(1.02);
+}
+.btn.disabled{
+	opacity: 0.4;
+}
+.timer{
+	border: 1px solid #ddd;
+	background-color: #eee;
+	box-shadow: 0 0 0;
+	margin-left: -5px;
+	border-radius: 10px;
+	padding: 0.3rem 0.2rem;
+	width: 100%;
+	max-width: 100%;
+	text-align: center;
+}
+audio{
+	display:block;
+	margin: 10px 0px;
+}
