@@ -7,6 +7,6 @@
 <script>
 if ('onpageshow' in window){window.addEventListener('pageshow', on_load, false);} else {window.addEventListener('load', on_load, false);}
 function on_load(){
-  voiceRecord("[%pass%]", "[%QUESTIONNAME()%]")
+  voiceRecord("[%pass%]", "[%QUESTIONNAME()%]", [% testMode_val+0 %])
 };
 </script>

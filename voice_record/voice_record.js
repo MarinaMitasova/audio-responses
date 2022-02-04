@@ -1,11 +1,11 @@
-function voiceRecord(pass, ques){
+function voiceRecord(pass, ques, testMode){
 	$("#" + ques).hide().after('<input type="text" class="open_end_text_box text_input" id="'+ques+'_timer">')
 	$("#" + ques+'_timer').addClass("timer")
 	
 	$(".timer").show().prop("readonly", true)
 	$("#" + ques + "_div .header2 .err").hide()
 	
-	var URL = '../voice_record/voice.php?pass=' + pass + '&q=' + ques;
+	var URL = '../voice_record/voice.php?pass=' + pass + '&q=' + ques + '&testMode=' + testMode;
 	
 	if (navigator.mediaDevices === undefined) {
 		navigator.mediaDevices = {};

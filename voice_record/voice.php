@@ -1,8 +1,17 @@
 <?php
 $pass = $_GET['pass'];
 $q = $_GET['q'];
+$testMode = $_GET['testMode'];
  
-$uploadDir = 'records/';
+if ($testMode == 0){
+	$uploadDir = 'records/';
+}else{
+	$uploadDir = 'records_test/';
+}
+
+if (!file_exists($uploadDir)){
+	mkdir($uploadDir, 0700);
+}
 
 if(!isset($_FILES['voice']) || $_FILES['voice']['error'] == UPLOAD_ERR_NO_FILE) {
 	$response = Array();
