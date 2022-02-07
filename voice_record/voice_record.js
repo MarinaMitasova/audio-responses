@@ -51,8 +51,30 @@ function voiceRecord(pass, ques, testMode){
 				})
 			});
 		}
+
+		if ($("#" + ques).val() != '') {
+			let audio = document.createElement('audio');
+			audio.src = $("#" + ques).val();
+			audio.controls = true;
+			audio.autoplay = false;
+			document.querySelector('#messages').appendChild(audio);
+
+			$('#start').addClass("disabled")
+			$('#replay').removeClass("disabled")
+
+			audio.onloadedmetadata = function() {
+				$(".timer").val( formatTime(audio.duration) );
+			};
+		}
 	}
-	
+
+	function formatTime(seconds) {
+		const h = Math.floor(seconds / 3600);
+		const m = Math.floor((seconds % 3600) / 60);
+		const s = Math.floor(seconds % 60);
+		return (h < 10 ? "0" : "") + h + (m < 10 ? ":0" : ":") + m + (s < 10 ? ":0" : ":") + s;
+	}
+
 	var mime = 'audio/webm';
 	if(!MediaRecorder.isTypeSupported(mime)){mime = 'audio/mp3'}
 	if(!MediaRecorder.isTypeSupported(mime)){mime = 'audio/wav'}
