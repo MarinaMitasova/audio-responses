@@ -31,6 +31,7 @@ function voiceRecord(pass, ques, testMode){
 		$("#" + ques + "_div .footer").append(
 			'<div id="start" class="btn"><i class="fa fa-microphone" aria-hidden="true"></i> Начать запись</div>' + 
 			'<div id="stop" class="btn disabled"><i class="fa fa-stop" aria-hidden="true"></i> Остановить</div>' + 
+			'<div id="replay" class="btn disabled"><i class="fa fa-reply" aria-hidden="true"></i> Перезаписать</div>' + 
 			'<div id="messages"></div>'
 		);
 		if ($(".timer").val() == "") {
@@ -64,7 +65,8 @@ function voiceRecord(pass, ques, testMode){
 			document.querySelector('#start').addEventListener('click', function(){
 				if ( !document.querySelector('#start').classList.contains("disabled") ){
 					mediaRecorder.start();
-					$('.btn').toggleClass("disabled")
+					$('#start').addClass("disabled")
+					$('#stop').removeClass("disabled")
 					StartTime()
 				}
 			});
@@ -76,8 +78,37 @@ function voiceRecord(pass, ques, testMode){
 			document.querySelector('#stop').addEventListener('click', function(){
 				if ( !document.querySelector('#stop').classList.contains("disabled") ){
 					mediaRecorder.stop();
-					$('.btn').toggleClass("disabled")
+					$('#stop').addClass("disabled")
+					$('#replay').removeClass("disabled")
 					StopTime()
+				}
+			});
+
+			document.querySelector('#replay').addEventListener('click', function(){
+				if (window.confirm("Подтвердите, пожалуйста, что Вы хотите удалить эту запись и записать свой ответ заново.")) {
+					if ( !document.querySelector('#replay').classList.contains("disabled") ){
+						$('#start').removeClass("disabled")
+						$('#replay').addClass("disabled")
+						$(".timer").val("00:00:00")
+						$("#messages").empty()
+
+						if ($("audio").length == 1) {
+							let src = $("audio").attr("src")
+							let params = {
+								src: src
+							}
+
+							(async () => {
+								let promise = await fetch("../voice_record/remove.php", {
+									method: 'POST',
+									body: JSON.stringify(params)});
+								if (promise.ok) {
+									let response =  await promise.json();
+									console.log(response.data);
+								}
+							})();
+						}
+					}
 				}
 			});
 
@@ -117,13 +148,19 @@ function voiceRecord(pass, ques, testMode){
 	  var h = +tmp[0]
 	  var m = +tmp[1]
 	  var s = +tmp[2]
+
+	  if (m == 2) {
+		var event = new Event("click")
+		document.querySelector('#stop').dispatchEvent(event)  
+		return;
+	  }
+
 	  if (flag) s++;
 
 	  hNew=new Date(0,0,0,h,m,s).getHours();
 	  mNew=new Date(0,0,0,h,m,s).getMinutes();
 	  sNew=new Date(0,0,0,h,m,s).getSeconds();
 
-	  //duration = new Date(0,0,0,h,m,s).toLocaleTimeString('ru').substring(0, 8)
 	  $(".timer").val( (hNew < 10 ? "0" : "") + hNew + (mNew < 10 ? ":0" : ":") + mNew + (sNew < 10 ? ":0" : ":") + sNew );
 	  flag = 1;
 	  clocktimer = setTimeout(StartTime, 1000);
